@@ -3,7 +3,7 @@ name: write-guidance
 type: tool-guidance
 target_tool: write
 priority: 10
-token_cost: 110
+token_cost: 180
 user-invocable: false
 ---
 ## `write` Tool
@@ -27,3 +27,15 @@ EXAMPLE:
 {"name": "write", "input": {"path": "/tmp/example/new_module.py", "content": "def hello():\n    return 'hi'\n"}}
 ```
 NOTE: Always use the EXACT file path given in the task, never a placeholder.
+
+### M365 Backend Note (when provider is the M365 Copilot server)
+The M365 backend truncates very long tool-call payloads mid-generation. To
+write large files reliably:
+
+- Keep `content` under **~6,000 characters** per `write` call.
+- For longer files: `write` the first ~6,000 chars, then use `edit` to append
+  the remainder in chunks (oldText = the file's current final line, newText =
+  that line plus the next chunk).
+- Inside string arguments, escape every newline as `\n` and every double
+  quote as `\"` — malformed escaping is the most common cause of failed
+  tool-call parsing on this backend.
