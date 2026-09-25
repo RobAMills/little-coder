@@ -1,5 +1,5 @@
 {
-  "default": "m365-copilot/gpt-4-planning",
+  "default": "llamacpp/qwen3.6-35b-a3b",
   "providers": {
     "llamacpp": {
       "api": "openai-completions",
@@ -73,66 +73,6 @@
           "contextWindow": 32768,
           "maxTokens": 4096,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
-        }
-      ]
-    },
-    "m365-copilot": {
-      "baseUrl": "http://localhost:3000",
-      "apiKey": "m365-local-server",
-      "defaultHeaders": {
-        "translate_erb": "true"
-      },
-      "models": [
-        {
-          "id": "m365-copilot/gpt-4",
-          "name": "M365 Copilot GPT-4 (Main Chat)",
-          "api": "anthropic-messages",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 128000,
-          "maxTokens": 8192
-        },
-        {
-          "id": "m365-copilot/gpt-4-planning",
-          "name": "M365 Copilot GPT-4 (Planning Tab)",
-          "api": "anthropic-messages",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 128000,
-          "maxTokens": 8192
-        },
-        {
-          "id": "m365-copilot/gpt-4-coding",
-          "name": "M365 Copilot GPT-4 (Coding Tab)",
-          "api": "anthropic-messages",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 128000,
-          "maxTokens": 8192
         }
       ]
     }

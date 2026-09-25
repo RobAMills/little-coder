@@ -3,7 +3,7 @@
 // Spawns the bundled pi runtime with our AGENTS.md, skills, and every
 // custom extension wired in — works from any working directory.
 
-import { spawn, execFileSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
@@ -307,7 +307,6 @@ const userArgs = process.argv.slice(2).filter(
 );
 const agentsMd = join(pkgRoot, "AGENTS.md");
 
-
 // Default the thinking level to "medium" for interactive sessions (pi's own
 // default is "minimal"). Only when the user hasn't asked for a level themselves
 // (--thinking, or the --model "provider/id:level" shorthand) and this isn't a
@@ -347,30 +346,6 @@ try {
   }
 } catch {
   // never block launch over default-model resolution
-}
-
-// Compose the system prompt with the persona overlay matching the model's
-// provider. "m365*" providers get the m365 bridge persona (their foundation
-// identity is a chat helper and contradicts a plain agent claim — see
-// prompts/providers/m365.md); everything else gets the default persona.
-// Best-effort: on any composer failure we launch with whatever AGENTS.md
-// currently holds, which is always a valid (default-composed) prompt.
-let promptProvider = "default";
-{
-  const persistedRef = readJsonSafe(join(resolveAgentDir(), "settings.json"));
-  const persistedProvider =
-    persistedRef && typeof persistedRef.defaultProvider === "string" ? persistedRef.defaultProvider : "";
-  const modelRef =
-    (userArgs[userArgs.indexOf("--model") + 1] || "") ||
-    (defaultModelArgs[defaultModelArgs.indexOf("--model") + 1] || "") ||
-    persistedProvider; // pi persists the user's last-used provider; it wins on non-first runs
-  const prov = modelRef.split("/")[0];
-  if (prov.startsWith("m365")) promptProvider = "m365";
-  try {
-    execFileSync(process.execPath, [join(pkgRoot, "scripts", "compose-prompt.mjs"), promptProvider, "--write"], { stdio: "pipe" });
-  } catch {
-    // never block launch over prompt composition
-  }
 }
 
 if (withPiExtensions && !isSubagent) {
